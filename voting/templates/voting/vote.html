@@ -147,8 +147,8 @@
     <div class="container">
         <div class="column">
             {% if error %}
-                <p class="error-message">{{ error }}</p>
-            {% endif %}
+                <h2>AH, BEANS</h2>
+            {% else %}
             <h2>THIS</h2>
             <form method="post">
                 {% csrf_token %}
@@ -168,6 +168,7 @@
                     <input type="hidden" name="loser" value="{{ choice1 }}">
                 </button>
             </form>
+            {% endif %}
         </div>
     </div>
 </body>

@@ -50,6 +50,16 @@ def vote(request):
                 .eq('subject', loser).execute()
         )
 
+        winner_history = (
+                supabase.table('historical_elo')
+                .insert({'subject': winner, 'historical_elo': new_winner_rating})
+                .execute()
+        )
+        loser_history = (
+                supabase.table('historical_elo')
+                .insert({'subject': loser, 'historical_elo': new_loser_rating})
+                .execute()
+        )
         
         return HttpResponseRedirect('')
     
