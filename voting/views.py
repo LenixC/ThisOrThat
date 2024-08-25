@@ -28,11 +28,11 @@ def vote(request):
         
         winner_elo = supabase.table('restaurants')\
                 .select("ELO")\
-                .eq("CHAIN", winner)\
+                .eq("subject", winner)\
                 .execute().data[0]['ELO']
         loser_elo = supabase.table('restaurants')\
                 .select("ELO")\
-                .eq("CHAIN", loser)\
+                .eq("subject", loser)\
                 .execute().data[0]['ELO']
         
         new_winner_rating, new_loser_rating = calculate_elo(winner_elo, loser_elo)
@@ -42,12 +42,12 @@ def vote(request):
         response_winner = (
                 supabase.table('restaurants')
                 .update({'ELO': new_winner_rating})
-                .eq('CHAIN', winner).execute()
+                .eq('subject', winner).execute()
         )
         response_loser = (
                 supabase.table('restaurants')
                 .update({'ELO': new_loser_rating})
-                .eq('CHAIN', loser).execute()
+                .eq('subject', loser).execute()
         )
 
         
@@ -62,4 +62,4 @@ def vote(request):
         
         choice1, choice2 = random.sample(restaurants, 2)
         return render(request, 'voting/vote.html', 
-                {'choice1': choice1['CHAIN'], 'choice2': choice2['CHAIN']})
+                {'choice1': choice1['subject'], 'choice2': choice2['subject']})
